@@ -55,9 +55,12 @@ function App() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8000/generate-video', {
-        prompt: prompt,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/generate-video`,
+        {
+          prompt: prompt,
+        }
+      );
       
       setVideoUrl(response.data.video_path);
       toast({
