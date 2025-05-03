@@ -59,11 +59,31 @@ function App() {
       if (!apiUrl) {
         throw new Error('API URL is not configured');
       }
+      
+      // First test the CORS connection
+      try {
+        await axios.get(`${apiUrl}/test-cors`);
+      } catch (corsError) {
+        console.error('CORS Test Error:', corsError);
+        toast({
+          title: 'Connection Error',
+          description: 'Unable to connect to the backend. Please try again later.',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
         
       const response = await axios.post(
         `${apiUrl}/generate-video`,
         {
           prompt: prompt,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
       
