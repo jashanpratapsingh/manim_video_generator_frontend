@@ -55,8 +55,13 @@ function App() {
 
     setIsLoading(true);
     try {
+      const apiUrl = process.env.REACT_APP_API_URL || 
+        (process.env.NODE_ENV === 'production' 
+          ? 'https://manim-generator-backend.onrender.com'
+          : 'http://localhost:8000');
+        
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/generate-video`,
+        `${apiUrl}/generate-video`,
         {
           prompt: prompt,
         }
